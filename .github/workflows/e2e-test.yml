@@ -1,5 +1,4 @@
 name: Automated E2E Testing
-
 on:
   pull_request:
   workflow_dispatch:
@@ -8,23 +7,11 @@ jobs:
   run-e2e-tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout under $GITHUB_WORKSPACE
+        uses: actions/checkout@main
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14 # Use the appropriate Node.js version
-
-      - name: Install Dependencies
-        run: |
-          npm ci
-          npx cypress install
-        working-directory: $GITHUB_WORKSPACE
-
-      - name: Run Cypress tests with Electron
+      - name: run cypress tests with electron
         uses: cypress-io/github-action@v4
         with:
           browser: electron
