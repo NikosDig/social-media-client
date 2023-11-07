@@ -23,3 +23,10 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("handleAlert", () => {
+  cy.on("window:alert", (message) => {
+    // Handle the alert, e.g., log it or assert its content
+    cy.log(`Alert message: ${message}`);
+  });
+});
