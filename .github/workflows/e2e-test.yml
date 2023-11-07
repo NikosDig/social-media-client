@@ -26,8 +26,10 @@ jobs:
           # Wait for ngrok to generate a public URL
           sleep 10
 
-          # Display the ngrok URL for debugging
-          echo "ngrok URL: $(curl -s http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url)"
+          # Get the ngrok URL and set it as an output
+          NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url)
+          echo "ngrok URL: $NGROK_URL"
+          echo "::set-output name=ngrok-url::$NGROK_URL"
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v4
@@ -35,5 +37,5 @@ jobs:
           browser: electron
           config-file: "./cypress.json"
           start: true
-          wait-on: ${{ steps.ngrok.outputs.url }}
+          wait-on: ${{ steps.ngrok.outputs.ngrok-url }}
           wait-on-timeout: 60
