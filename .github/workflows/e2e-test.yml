@@ -35,7 +35,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           browser: electron
-          config-file: "./cypress.json"
+          config-file: "./cypress.config.js"
           start: true
           wait-on: ${{ steps.ngrok.outputs.ngrok-url }}
           wait-on-timeout: 60
