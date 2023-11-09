@@ -18,7 +18,7 @@ jobs:
       - name: Set up ngrok
         run: |
           npm install -g ngrok
-          ngrok http 5500 -host-header="localhost:5500" > /dev/null &
+          ngrok http -host-header=rewrite 5500 > /dev/null &
           sleep 10
 
           # Print Ngrok status
