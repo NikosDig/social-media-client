@@ -22,7 +22,7 @@ jobs:
           sleep 10
           export NGROK_URL=$(grep -oP "https://.*?ngrok.io" ngrok.log)
           echo "ngrok URL: $NGROK_URL"
-          echo "::set-env name=NGROK_URL::$NGROK_URL"
+          echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
 
       - name: Wait for server and run Cypress tests
         run: |
