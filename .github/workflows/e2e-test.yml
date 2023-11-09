@@ -19,7 +19,7 @@ jobs:
         run: |
           npm install -g ngrok
           ngrok http 5500 -host-header="localhost:5500" > /dev/null &
-          sleep 10 # Sleep to allow ngrok to start
+          sleep 10
 
           # Print Ngrok status
           ngrok status
@@ -39,9 +39,6 @@ jobs:
             n=$[$n+1]
             sleep 30
           done
-
-          # Print Ngrok URL
-          echo "Ngrok URL: $NGROK_URL"
 
           # Run Cypress tests
           npm run test-e2e-cli
