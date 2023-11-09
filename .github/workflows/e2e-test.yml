@@ -23,6 +23,7 @@ jobs:
           export NGROK_URL=$(grep -oP "https://.*?ngrok.io" ngrok.log)
           echo "ngrok URL: $NGROK_URL"
           echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
+          cat ngrok.log
 
       - name: Wait for server and run Cypress tests
         run: |
@@ -34,6 +35,7 @@ jobs:
             n=$[$n+1]
             sleep 30
           done
-
           # Run Cypress tests
           npm run test-e2e-cli
+        env:
+          NGROK_URL: ${{ env.NGROK_URL }}
