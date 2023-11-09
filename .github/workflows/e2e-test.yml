@@ -20,7 +20,7 @@ jobs:
           npm install -g ngrok
           ngrok http 5500 > /dev/null &
           sleep 10
-          export NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url)
+          export NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r .tunnels[0].public_url)
           echo "ngrok URL: $NGROK_URL"
           echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
 
@@ -36,5 +36,3 @@ jobs:
           done
           # Run Cypress tests
           npm run test-e2e-cli
-        env:
-          NGROK_URL: ${{ env.NGROK_URL }}
