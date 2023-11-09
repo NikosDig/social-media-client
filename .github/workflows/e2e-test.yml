@@ -15,16 +15,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Start server
-        run: |
-          npm start &
-          sleep 5 # Sleep for a few seconds to allow the server to start
-
       - name: Set up ngrok
         run: |
           npm install -g ngrok
           ngrok http 5500 -host-header="localhost:5500" > /dev/null &
           sleep 10 # Sleep to allow ngrok to start
+
+          # Print Ngrok status
+          ngrok status
 
           # Get the ngrok URL and set it as an output
           NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url)
@@ -41,6 +39,9 @@ jobs:
             n=$[$n+1]
             sleep 30
           done
+
+          # Print Ngrok URL
+          echo "Ngrok URL: $NGROK_URL"
 
           # Run Cypress tests
           npm run test-e2e-cli
