@@ -8,6 +8,9 @@ jobs:
   run-e2e-tests:
     name: Run E2E Tests
     runs-on: ubuntu-latest
+    env:
+      NGROK_URL: ""
+
     steps:
       - name: Checkout under $GITHUB_WORKSPACE
         uses: actions/checkout@v2
@@ -15,16 +18,25 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Start your application
-        run: npm start &
+      - name: Set up ngrok
+        run: |
+          npm install -g ngrok
+          ngrok http 5500 --log=stdout > /dev/null &
+          sleep 10
+          # Print Ngrok status
+          ngrok status
+          # Get the ngrok URL and set it as an environment variable
+          NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url)
+          echo "ngrok URL: $NGROK_URL"
+          echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
 
-      - name: Wait for the server and run Cypress tests
+      - name: Wait for server and run Cypress tests
         run: |
           # Wait for the server to be ready
           n=0
           until [ $n -ge 5 ]
           do
-            curl -I http://localhost:5500 && break
+            curl -I $NGROK_URL && break
             n=$[$n+1]
             sleep 30
           done
