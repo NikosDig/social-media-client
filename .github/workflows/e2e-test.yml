@@ -20,12 +20,13 @@ jobs:
           npm install -g ngrok
           ngrok http 5500 > /dev/null &
           sleep 10
-          NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url)
+          export NGROK_URL=$(curl -s http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url)
           echo "ngrok URL: $NGROK_URL"
-          echo "::set-output name=ngrok-url::$NGROK_URL"
+          echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
 
-      - name: Wait for ngrok and run Cypress tests
+      - name: Wait for server and run Cypress tests
         run: |
+          # Wait for the server to be ready
           n=0
           until [ $n -ge 5 ]
           do
@@ -33,6 +34,7 @@ jobs:
             n=$[$n+1]
             sleep 30
           done
+          # Run Cypress tests
           npm run test-e2e-cli
         env:
-          NGROK_URL: ${{ steps.ngrok.outputs.ngrok-url }}
+          NGROK_URL: ${{ env.NGROK_URL }}
