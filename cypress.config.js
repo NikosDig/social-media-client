@@ -1,20 +1,7 @@
-// import { defineConfig } from "cypress";
+import { defineConfig } from "cypress";
 
-// export default defineConfig({
-//   e2e: {
-//     setupNodeEvents(on, config) {
-//       // implement node event listeners here
-//     },
-//   },
-// });
-
-// cypress.config.js
-export default (on, config) => {
-  if (config.env.ngrokUrl) {
-    config.baseUrl = config.env.ngrokUrl;
-  }
-
-  // other Cypress configuration options
-
-  return config;
-};
+export default defineConfig({
+  e2e: {
+    baseUrl: "http://127.0.0.1:5500/",
+  },
+});
