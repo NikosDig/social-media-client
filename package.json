@@ -11,7 +11,7 @@
     "test-unit": "jest",
     "test-e2e": "cypress open --config-file=cypress.config.js",
     "test-e2e-cli": "cypress run --config-file=cypress.config.js",
-    "prepare": "husky install && npm ci"
+    "prepare": "husky install && npm install"
   },
   "keywords": [],
   "author": "Noroff",
