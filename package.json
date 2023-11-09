@@ -1,6 +1,6 @@
 {
   "name": "css-frameworks-ca",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "Test",
   "type": "module",
   "main": "index.js",
@@ -10,8 +10,8 @@
     "test": "npm run test-unit && npm run test-e2e-cli",
     "test-unit": "jest",
     "test-e2e": "cypress open --config-file=cypress.config.js",
-    "test-e2e-cli": "cypress run --config-file=cypress.config.js",
-    "prepare": "husky install && npm install"
+  "test-e2e-cli": "cypress run --config-file=cypress.config.js",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Noroff",
@@ -28,8 +28,7 @@
     "lint-staged": "^15.0.2",
     "live-server": "^1.1.0",
     "prettier": "^3.0.3",
-    "sass": "^1.54.8",
-    "wait-on": "^5.5.0"
+    "sass": "^1.54.8"
   },
   "dependencies": {
     "bootstrap-dark-5": "^1.1.3"
