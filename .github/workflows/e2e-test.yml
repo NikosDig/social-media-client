@@ -18,12 +18,13 @@ jobs:
       - name: Set up ngrok
         run: |
           npm install -g ngrok
-          ngrok http 5500 -host-header="localhost:5500" > ngrok.log 2>&1 &
+          ngrok http 5500 > ngrok.log 2>&1 &
           sleep 10
           export NGROK_URL=$(grep -oP "https://.*?ngrok.io" ngrok.log)
           echo "ngrok URL: $NGROK_URL"
           echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
           cat ngrok.log
+        shell: bash
 
       - name: Wait for server and run Cypress tests
         run: |
