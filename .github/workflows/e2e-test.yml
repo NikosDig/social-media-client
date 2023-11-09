@@ -20,9 +20,9 @@ jobs:
       - name: Set up ngrok
         run: |
           npm install -g ngrok
-          ngrok http 5500 > /dev/null &
+          ngrok http 5500 --log=stdout > ngrok.log 2>&1 &
           sleep 10
-          export NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r .tunnels[0].public_url)
+          export NGROK_URL=$(grep "Forwarding" ngrok.log | awk -F' ' '{print $2}')
           echo "ngrok URL: $NGROK_URL"
 
       - name: Set NGROK_URL as environment variable
